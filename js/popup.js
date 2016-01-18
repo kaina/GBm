@@ -69,15 +69,27 @@
                 n3.appendChild(element);
             });
 
+            // ラベルルート
             var n1 = document.createElement('li');
             n1.textContent =  a;
             n1.classList.add('directory');
+            // mouseover,mouseoutより mouseenter,mouseleaveのほうが子ノード絡みで楽っぽい
+            // http://www.buildinsider.net/web/jqueryref/019
+            n1.addEventListener('mouseenter', function (e) {
+                e.target.timeoutId = setTimeout(function (node) {
+                    node.classList.add('expand');
+                    node.timeoutId = null;
+                }, 300, e.target);
+            });
+            n1.addEventListener('mouseleave', function (e) {
+                clearTimeout(e.target.timeoutId);
+                e.target.timeoutId = null;
+                e.target.classList.remove('expand');
+            });
+
             var n2 = document.createElement('ol');
             n2.appendChild(n3);
-            var n4 = document.createElement('div');
-            n4.classList.add('directory-sub');
-            n4.appendChild(n2);
-            n1.appendChild(n4);
+            n1.appendChild(n2);
             df.appendChild(n1);
         });
         document.querySelector('#bookmarks > ol').appendChild(df);

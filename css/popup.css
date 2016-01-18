@@ -45,7 +45,7 @@ li:hover {
     color: #FFFFFF;
 }
 
-li:hover.directory ol {
+li.directory.expand ol {
     display: inherit;
     background-color: #FFFFFF;
     color: #000000;
@@ -54,14 +54,4 @@ li:hover.directory ol {
 li.directory ol > li:hover {
     background-color: #1E90FF;
     color: #FFFFFF;
-}
-
-.directory-sub {
-    width: inherit;
-    transition: opacity 0s ease-in 0.3s;
-    opacity: 0;
-}
-
-li:hover.directory .directory-sub {
-    opacity: 1;
 }
