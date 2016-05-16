@@ -45,6 +45,12 @@
     }
 
     chrome.runtime.onInstalled.addListener(function () {
+        chrome.contextMenus.create({
+            type: 'normal',
+            id: 'MenuGBmAddBookmark',
+            title: 'Add Bookmark',
+            contexts: [ 'page' ]
+        });
         chrome.alarms.clear(alermName, function (wasCleared) {
             collectBookmarks();
             chrome.alarms.create(alermName, { periodInMinutes: 10 });
@@ -54,6 +60,15 @@
     chrome.alarms.onAlarm.addListener(function (alerm) {
         if (alerm.name == alermName) {
             collectBookmarks();
+        }
+    });
+
+    chrome.contextMenus.onClicked.addListener(function (info, tab) {
+        if (tab) {
+            // from bookmarklet
+            var url = `https://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk=${encodeURIComponent(tab.url)}&title=${encodeURIComponent(tab.title)}`;
+            var features = `left=${(window.screenX || window.screenLeft) + 10},top=${(window.screenY || window.screenTop) + 10},height=510px,width=550px,resizable=1,alwaysRaised=1`;
+            window.open(url, 'GoogleBookmarksPopup', features);
         }
     });
 
